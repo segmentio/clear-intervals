@@ -1,24 +1,33 @@
 'use strict';
 
 var assert = require('proclaim');
-var clear = require('../lib');
+var clearIntervals = require('../lib');
 
 describe('clear-intervals', function() {
+  var interval;
   var j = 0;
 
-  function incr() { ++j; }
-  setInterval(incr, 50);
-  setInterval(incr, 100);
+  beforeEach(function() {
+    interval = setInterval(function() {
+      j += 1;
+    }, 10);
+  });
+
+  afterEach(function() {
+    clearInterval(interval);
+  });
 
   it('should clean all intervals', function(done) {
     setTimeout(function() {
-      clear();
-      assert(j === 3);
-      done();
-    }, 101);
-  });
-
-  it('should cleanup', function() {
-    clear();
+      assert.strictEqual(j, 1);
+      setTimeout(function() {
+        assert.strictEqual(j, 2);
+        clearIntervals();
+        setTimeout(function() {
+          assert.strictEqual(j, 2);
+          done();
+        }, 40);
+      }, 11);
+    }, 11);
   });
 });
