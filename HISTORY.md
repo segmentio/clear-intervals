@@ -1,4 +1,4 @@
-vNEXT / 2016-06-13
+2.0.0 / 2016-06-13
 ==================
 
   * Override `setInterval` with a listener that explicitly tracks IDs, and only clear intervals that are pending since installing the listener
